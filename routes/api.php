@@ -16,17 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/students', [StudentsController::class, 'index']);
+Route::get('/students/{id}', [StudentsController::class, 'show']);
 
 Route::post('/students', [StudentsController::class, 'store']);
 
-// Route::get('/students/{id}', function() {
-//     return 'Obteniendo un estudiante';
-// });
+Route::delete('/students/{id}', [StudentsController::class, 'destroy']);
 
 // Route::put('/students/{id}', function() {
 //     return 'Actualizando estudiantes';
-// });
-
-// Route::delete('/students/{id}', function() {
-//     return 'Eliminando estudiantes';
 // });

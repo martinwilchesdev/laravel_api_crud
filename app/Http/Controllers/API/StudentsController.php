@@ -19,8 +19,8 @@ class StudentsController extends Controller
 
         return response()->json([
             'message' => 'No se encontraron estudiantes',
-            'status' => 204
-        ], 204);
+            'status' => 404
+        ], 404);
     }
 
     public function store(Request $request): JsonResponse {
@@ -54,5 +54,33 @@ class StudentsController extends Controller
         }
 
         return response()->json($student, 201);
+    }
+
+    public function show($id) {
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json([
+                'message' => 'El estudiante no existe',
+                'status' => 404
+            ], 404);
+        }
+
+        return response()->json($student, 200);
+    }
+
+    public function destroy($id) {
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json([
+                'message' => 'El estudiante no existe',
+                'status' => 404
+            ], 404);
+        }
+
+        $student->delete();
+
+        return response()->json($student, 204);
     }
 }
