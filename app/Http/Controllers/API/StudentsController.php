@@ -69,6 +69,87 @@ class StudentsController extends Controller
         return response()->json($student, 200);
     }
 
+    public function update(Request $request, $id) {
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json([
+                'message' => 'El estudiante no existe',
+                'status' => 404
+            ], 404);
+        }
+
+        $validated = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'phone' => 'required|digits:10',
+            'email' => 'required|email|unique:students',
+            'language' => 'required|in:Spanish,English'
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json([
+                'message' => 'Error en la validacion de los datos',
+                'errors' => $validated->errors(),
+                'status' => 400
+            ], 400);
+        }
+
+        $student->name = $request->name;
+        $student->phone = $request->phone;
+        $student->email = $request->email;
+        $student->language = $request->language;
+
+        $student->update();
+
+        return response()->json($student, 200);
+    }
+
+    public function updatePartial(Request $request, $id) {
+        $student = Student::find($id);
+
+        if (!$student) {
+            return response()->json([
+                'message' => 'El estudiante no existe',
+                'status' => 404
+            ], 404);
+        }
+
+        $validated = Validator::make($request->all(), [
+            'name' => 'max:255',
+            'phone' => 'digits:10',
+            'email' => 'email|unique:students',
+            'language' => 'in:Spanish,English'
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json([
+                'message' => 'Error en la validacion de los datos',
+                'errors' => $validated->errors(),
+                'status' => 400
+            ], 400);
+        }
+
+        if ($request->has('name')) {
+            $student->name = $request->name;
+        }
+
+        if ($request->has('phone')) {
+            $student->phone = $request->phone;
+        }
+
+        if ($request->has('email')) {
+            $student->email = $request->email;
+        }
+
+        if ($request->has('language')) {
+            $student->language = $request->language;
+        }
+
+        $student->update();
+
+        return response()->json($student, 200);
+    }
+
     public function destroy($id) {
         $student = Student::find($id);
 

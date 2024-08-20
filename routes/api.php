@@ -15,13 +15,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*******************/
+/** OBTENER DATOS **/
+/*******************/
 Route::get('/students', [StudentsController::class, 'index']);
 Route::get('/students/{id}', [StudentsController::class, 'show']);
 
+/************************/
+/** CREAR NUEVOS DATOS **/
+/************************/
 Route::post('/students', [StudentsController::class, 'store']);
 
-Route::delete('/students/{id}', [StudentsController::class, 'destroy']);
+/**********************/
+/** ACTUALIZAR DATOS **/
+/**********************/
+Route::put('/students/{id}', [StudentsController::class, 'update']);
+Route::patch('/students/{id}', [StudentsController::class, 'updatePartial']);
 
-// Route::put('/students/{id}', function() {
-//     return 'Actualizando estudiantes';
-// });
+/********************/
+/** ELIMINAR DATOS **/
+/********************/
+Route::delete('/students/{id}', [StudentsController::class, 'destroy']);
